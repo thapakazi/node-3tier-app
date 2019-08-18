@@ -1,0 +1,10 @@
+#+TITLE: Readme for provisioning
+#+DATE: Sunday, Aug 18 2019
+#+DESCRIPTION: provisioning node-3tier app with terraform
+
+* GCloud
+  - [X] create a project and get json key
+  - [ ] provision the gke cluster
+  - [ ] provision the database: pg (private ip only inside vpc)
+  - [ ] save database credentials into kuberenets secrets
+
