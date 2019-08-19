@@ -21,9 +21,12 @@ resource "google_container_node_pool" "primary_nodes" {
   name       = "my-node-pool"
   location   = "${google_container_cluster.primary.location}"
   cluster    = "${google_container_cluster.primary.name}"
-  node_count = 2
   version    = "${google_container_cluster.primary.master_version}"
-
+  # node_count = 2
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 3
+  }
   node_config {
     machine_type = "n1-standard-1"
 
