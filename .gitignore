@@ -65,3 +65,5 @@ typings/
 *.tfstate
 .terraform
 
+# gcp keys
+provision/gcloud/keyfile/

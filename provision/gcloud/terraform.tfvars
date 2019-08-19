@@ -1,2 +1,2 @@
-project_id="terraforming-250207"
-region = "asia-south1"
+project_id = "node-3tier-app"
+region     = "asia-south1"

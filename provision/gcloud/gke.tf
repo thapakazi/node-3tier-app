@@ -17,14 +17,14 @@ resource "google_container_cluster" "primary" {
   }
 }
 
-resource "google_container_node_pool" "primary_nodes"{
-  name = "my-node-pool"
-  location = "${google_container_cluster.primary.location}"
-  cluster = "${google_container_cluster.primary.name}"
+resource "google_container_node_pool" "primary_nodes" {
+  name       = "my-node-pool"
+  location   = "${google_container_cluster.primary.location}"
+  cluster    = "${google_container_cluster.primary.name}"
   node_count = 2
-  version = "${google_container_cluster.primary.master_version}"
+  version    = "${google_container_cluster.primary.master_version}"
 
-  node_config{
+  node_config {
     machine_type = "n1-standard-1"
 
     metadata = {
@@ -38,8 +38,8 @@ resource "google_container_node_pool" "primary_nodes"{
   }
 }
 
-resource "google_project_service" "container"{
-  service = "container.googleapis.com"
+resource "google_project_service" "container" {
+  service            = "container.googleapis.com"
   disable_on_destroy = false
 }
 
