@@ -5,6 +5,13 @@ var request = require('request');
 
 var api_url = process.env.API_HOST + '/api/status';
 
+
+//healthcheck, to route traffic to healty hosts
+router.get('/healthz', function(req, res) {
+  return res.status(200).json({
+    status: "still alive ;)"
+  });
+});
 /* GET home page. */
 router.get('/', function(req, res, next) {
   request(

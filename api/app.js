@@ -27,6 +27,13 @@ app.get('/api/status', function(req, res) {
   });
 });
 
+//healthcheck, to route traffic to healty hosts
+app.get('/healthz', function(req, res) {
+  return res.status(200).json({
+    status: "still alive ;)"
+  });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
