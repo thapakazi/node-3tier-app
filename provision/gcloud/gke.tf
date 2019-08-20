@@ -4,7 +4,7 @@ resource "random_id" "gke-cluster" {
 resource "google_container_cluster" "primary" {
   name           = "node-3tier-app-${random_id.gke-cluster.hex}"
   location       = "${var.region}"
-  node_locations = ["asia-south1-a"]
+  node_locations = "${var.zones}"
 
   remove_default_node_pool = true
   initial_node_count       = 1
