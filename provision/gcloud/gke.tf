@@ -17,15 +17,22 @@ resource "google_container_cluster" "primary" {
   }
 }
 
+variable min_node_count{
+  default = 1
+}
+variable max_node_count{
+  default = 3
+}
 resource "google_container_node_pool" "primary_nodes" {
   name       = "my-node-pool"
   location   = "${google_container_cluster.primary.location}"
   cluster    = "${google_container_cluster.primary.name}"
   version    = "${google_container_cluster.primary.master_version}"
+  initial_node_count = "${var.min_node_count}"
   # node_count = 2
   autoscaling {
-    min_node_count = 1
-    max_node_count = 3
+    min_node_count = "${var.min_node_count}"
+    max_node_count = "${var.max_node_count}"
   }
   node_config {
     machine_type = "n1-standard-1"
