@@ -1,4 +1,5 @@
 var express = require('express');
+var os = require('os');
 var router = express.Router();
 var request = require('request');
 
@@ -27,7 +28,8 @@ router.get('/', function(req, res, next) {
         res.render('index', {
           title: '3tier App' ,
           request_uuid: body.request_uuid,
-          time: body.time
+          time: body.time,
+          hostname: os.hostname()
         });
       }
     }
