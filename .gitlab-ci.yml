@@ -1,7 +1,7 @@
 variables:
   GCLOUD_PROJECT_ID: 'node-3tier-app'
   APP_NAME: 'web'
-  IMAGE_NAME: 'api'
+  IMAGE_NAME: 'web'
 
 stages:
   - build
