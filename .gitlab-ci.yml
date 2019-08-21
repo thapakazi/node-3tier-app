@@ -1,15 +1,10 @@
 variables:
   GCLOUD_PROJECT_ID: 'node-3tier-app'
-  APP_NAME: 'web'
-  IMAGE_NAME: 'web'
+  APP_NAME: 'api'
 
 stages:
   - build
   - deploy
-
-before_script:
-  - mkdir -p $HOME/.docker
-  - echo "$DOCKER_AUTH_CONFIG" >> "$HOME/.docker/config.json"
 
 build:
   image: dwdraju/alpine-gcloud
@@ -18,7 +13,7 @@ build:
     - echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/service-account-key.json
     - gcloud auth activate-service-account --key-file ${HOME}/service-account-key.json
     - gcloud config set project $GCLOUD_PROJECT_ID
-    - gcloud builds submit $IMAGE_NAME --config=.cloudbuild.yml --substitutions BRANCH_NAME=${CI_COMMIT_SHORT_SHA},_IMAGE_NAME=$IMAGE_NAME
+    - gcloud builds submit $APP_NAME --config=.cloudbuild.yml --substitutions BRANCH_NAME=${CI_COMMIT_SHORT_SHA},_IMAGE_NAME=$APP_NAME
   # only:
   #   - branches
 
