@@ -5,20 +5,11 @@ variables:
 
 stages:
   - build
+  - deploy
 
 before_script:
   - mkdir -p $HOME/.docker
   - echo "$DOCKER_AUTH_CONFIG" >> "$HOME/.docker/config.json"
-
-
-# pullpushtest:
-#   image: 'docker:latest'
-#   stage: pushpull
-#   script:
-#     - docker run hello-world
-    # - docker pull $REGISTRY_URL/$GCLOUD_PROJECT_ID/$APP_NAME:$CI_COMMIT_SHA
-    # - docker push $REGISTRY_URL/$GCLOUD_PROJECT_ID/$APP_NAME:$CI_COMMIT_SHA
-
 
 build:
   image: dwdraju/alpine-gcloud
@@ -27,6 +18,17 @@ build:
     - echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/service-account-key.json
     - gcloud auth activate-service-account --key-file ${HOME}/service-account-key.json
     - gcloud config set project $GCLOUD_PROJECT_ID
-    - gcloud builds submit $IMAGE_NAME --config=.cloudbuild.yml --substitutions BRANCH_NAME=$CI_COMMIT_REF_NAME,_IMAGE_NAME=$IMAGE_NAME
+    - gcloud builds submit $IMAGE_NAME --config=.cloudbuild.yml --substitutions BRANCH_NAME=${CI_COMMIT_SHORT_SHA},_IMAGE_NAME=$IMAGE_NAME
   # only:
   #   - branches
+
+deploy:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - kubectl config set-cluster k8s --server="${SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data "${CERTIFICATE_AUTHORITY_DATA}"
+    - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config use-context default
+    - sed "s/latest/${CI_COMMIT_SHORT_SHA}/g" $APP_NAME/deploy/deployment.yml | kubectl apply -f -

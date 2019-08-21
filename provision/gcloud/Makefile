@@ -7,6 +7,8 @@ plan:
 apply:
 	@terraform apply /tmp/plan
 
+run: import plan apply
+
 get-kubeconfig:
 	@gcloud container clusters get-credentials "$(shell terraform output cluster_name)" --region "$(shell terraform output region)"
 
@@ -24,3 +26,4 @@ generate-web-secrets:
 
 clean:
 	rm -rf ~/.kube/config
+	terraform state rm google_compute_network.vpc_default

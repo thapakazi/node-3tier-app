@@ -1,0 +1,18 @@
+* Sample 3tier app
+This repo contains code for a Node.js multi-tier application.
+
+The application overview is as follows
+
+#+begin_quote
+web <=> api <=> db
+#+end_quote
+
+
+The folders ~web~ and ~api~ respectively describe how to install and run each app.
+
+
+* CI variables
+  - CERTIFICATE_AUTHORITY_DATA
+  - SERVER
+  - USER_TOKEN
+** 

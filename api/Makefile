@@ -13,5 +13,8 @@ publish: build
 deploy: publish
 	 sed "s/latest/$(shell git rev-parse HEAD)/" deploy/deployment.yml |kubectl apply -f -
 
+create-service:
+	kubectl apply -f deploy/service.yml
+
 print:
 	echo ${GCR_URL}

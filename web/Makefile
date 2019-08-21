@@ -13,5 +13,9 @@ publish: build
 deploy: publish
 	 sed "s/latest/$(shell git rev-parse HEAD)/" deploy/deployment.yml |kubectl apply -f -
 
+create-service:
+	kubectl apply -f deploy/service.yml
+create-ingress:
+	kubectl apply -f deploy/ingress.yml
 get-ingress-ip:
 	@kubectl get ingress web-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
