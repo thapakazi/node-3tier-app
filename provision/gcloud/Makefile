@@ -23,6 +23,7 @@ generate-web-secrets:
 	@kubectl create secret generic web-secrets  --from-literal "API_HOST=http://api"
 	@kubectl describe secret/web-secrets
 
+genreate-secrets: generate-web-secrets generate-api-secrets
 
 clean:
 	rm -rf ~/.kube/config

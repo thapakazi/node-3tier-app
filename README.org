@@ -15,4 +15,4 @@ The folders ~web~ and ~api~ respectively describe how to install and run each ap
   - CERTIFICATE_AUTHORITY_DATA
   - SERVER
   - USER_TOKEN
-** 
+

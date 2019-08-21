@@ -4,7 +4,85 @@
 
 * GCloud
   - [X] create a project and get json key
-  - [ ] provision the gke cluster
-  - [ ] provision the database: pg (private ip only inside vpc)
-  - [ ] save database credentials into kuberenets secrets
+  - [X] provision the gke cluster
+  - [X] provision the database: pg (private ip only inside vpc)
+  - [X] save database credentials into kuberenets secrets
+  - [ ] periodic backup for sql
+  - [ ] apm for applications
+  - [ ] logging of apps go to elk
+  - [ ] basic monitoring
+
+
+* Demo steps
+** provision/configure the infra
+  - [X] provision the cluster first
+    ETA: 15mins
+    #+begin_src bash
+    cd ./gcloud
+    make run         # which import terraform states, builds plan and applies it
+    #+end_src
+
+  - [X] configure kubectl config
+    #+begin_src bash
+    make get-kubeconfig         # which populates the kubectl ~/.kube/config
+    #+end_src
+  - [X] create api & web secrets on k8s cluster
+    #+begin_src bash
+    make genreate-secrets       # this will create secrets: api-secrets, web-secrets
+    #+end_src
+
+** configure metas necessary for deployment    
+  - [X] publish gitlab service account to k8s cluster, 
+    why: gitlab-ci runners could invoke the deployment of new resources to k8s cluster
+    #+begin_src bash
+    cd ~/repos/thapakazi/node-3tier-app/provision/kubernetes
+    make create-gitlab-svc-account 
+    #+end_src
+  - [ ] create/update CI/CD secret variables on gitlab, secrets could be found with:
+    #+begin_src bash
+    cd ~/repos/thapakazi/node-3tier-app/provision/kubernetes
+    make get-cluster-info
+    #+end_src
+
+    Update the variable on ci/cd settings: https://gitlab.com/thapakazi/node-3tier-app/-/settings/ci_cd
+** Create k8s resources
+   - [X] create services for api and web
+     #+begin_src bash
+     cd ~/repos/thapakazi/node-3tier-app/api && make create-service
+     cd ~/repos/thapakazi/node-3tier-app/web && make create-service
+     #+end_src
+   - [ ] create ingress for web
+     ETA: 5min
+     Explained: it provisions a loadbalancer forwarding traffic from internet -> svc/web -> po/web-*
+     #+begin_src bash
+     cd ~/repos/thapakazi/node-3tier-app/web
+     make create-ingress
+     kubectl describe ingress/web-ingress
+     #+end_src
+** Test CI/CD
+   - [ ] make a change to api
+   - [ ] make change to web
+
+** Cleanup
+  As jbp petersons says, cleanup your room.
+  1. cleanup ingress first
+     #+begin_src bash :results drawer
+     kubectl get ingress/web-ingress && kubectl delete ingress/web-ingress 
+     #+end_src
+
+     #+RESULTS:
+     :results:
+     NAME          HOSTS   ADDRESS           PORTS   AGE
+     web-ingress   *       107.178.255.190   80      5h36m
+     ingress.extensions "web-ingress" deleted
+     :end:
+  2. cleanup the infra
+     #+begin_src bash
+     cd provision/gcloud && make rm_res
+     echo "run $ terraform destory #don't blame me afterwards"
+     #+end_src
+
+     #+RESULTS:
+
+  
 
