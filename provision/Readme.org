@@ -51,8 +51,8 @@
      cd ~/repos/thapakazi/node-3tier-app/api && make create-service
      cd ~/repos/thapakazi/node-3tier-app/web && make create-service
      #+end_src
-   - [ ] create ingress for web
-     ETA: 5min
+   - [X] create ingress for web
+     ETA: 5min+
      Explained: it provisions a loadbalancer forwarding traffic from internet -> svc/web -> po/web-*
      #+begin_src bash
      cd ~/repos/thapakazi/node-3tier-app/web
@@ -60,8 +60,8 @@
      kubectl describe ingress/web-ingress
      #+end_src
 ** Test CI/CD
-   - [ ] make a change to api
-   - [ ] make change to web
+   - [X] make a change to api
+   - [X] make change to web
 
 ** Cleanup
   As jbp petersons says, cleanup your room.
@@ -78,7 +78,7 @@
      :end:
   2. cleanup the infra
      #+begin_src bash
-     cd provision/gcloud && make rm_res
+     cd provision/gcloud && make clean
      echo "run $ terraform destory #don't blame me afterwards"
      #+end_src
 

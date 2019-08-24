@@ -3,6 +3,19 @@ kind: Ingress
 metadata:
   name: web-ingress
 spec:
-  backend:
-    serviceName: web
-    servicePort: 80
+  rules:
+    - host: thisthing.works
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: web
+              servicePort: 80
+
+    - host: assets.thisthing.works
+      http:
+        paths:
+          - path: /assets/*
+            backend:
+              serviceName: web
+              servicePort: 81

@@ -20,7 +20,7 @@ generate-api-secrets:
 	@kubectl describe secret/api-secrets
 
 generate-web-secrets:
-	@kubectl create secret generic web-secrets  --from-literal "API_HOST=http://api"
+	@kubectl create secret generic web-secrets  --from-literal "API_HOST=http://api" --from-literal "NODE_ENV=production" --from-literal "CDN_URL=//assets.thisthing.works"
 	@kubectl describe secret/web-secrets
 
 genreate-secrets: generate-web-secrets generate-api-secrets

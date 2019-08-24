@@ -10,8 +10,8 @@ web <=> api <=> db
 
 The folders ~web~ and ~api~ respectively describe how to install and run each app.
 
-
 * CI variables
+  Since we use rely on env vars for ci/cd on .gitlab-ci.yml, set thes on Setting -> CI/CD on gitlab.
   - CERTIFICATE_AUTHORITY_DATA
   - SERVER
   - USER_TOKEN

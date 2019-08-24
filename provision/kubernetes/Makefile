@@ -1,8 +1,27 @@
-CLUSTER_NAME?=node-3tier-app-d50e9d69
+CLUSTER_NAME?=$(shell cd ../gcloud; terraform output cluster_name)
 REGION?=asia-south1
 
 create-gitlab-svc-account:
 	@kubectl apply -f gitlab-admin-service-account.yml
+
+create-helm-tiller-svc-account:
+	@kubectl apply -f helm-tiller.yml
+
+prometheus:
+	helm install --name prom --namespace observability -f prom-custom-values.yaml stable/prometheus-operator
+
+proxy:
+	kubectl port-forward -n observability svc/prom-grafana 8080:80
+
+.PHONY: helm
+helm:
+	helm repo add loki https://grafana.github.io/loki/charts
+	helm repo update
+	kubectl apply -f helm-tiller.yml
+	helm init --upgrade --service-account tiller
+
+loki:
+	helm install --name loki --namespace observability loki/loki-stack
 
 get-cluster-info:
 	@echo -n SERVER:
