@@ -19,3 +19,9 @@ create-ingress:
 	kubectl apply -f deploy/ingress.yml
 get-ingress-ip:
 	@kubectl get ingress web-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+
+lint:
+	@npm run lint
+
+lint-fix:
+	@npm run lint-fix

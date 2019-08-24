@@ -3,8 +3,17 @@ variables:
   APP_NAME: 'web'
 
 stages:
+  - lint
   - build
   - deploy
+
+lint:
+  image: node:alpine
+  stage: lint
+  script:
+    - cd $APP_NAME
+    - npm install
+    - npm run lint
 
 build:
   image: dwdraju/alpine-gcloud

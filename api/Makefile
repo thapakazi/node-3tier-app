@@ -18,3 +18,9 @@ create-service:
 
 print:
 	echo ${GCR_URL}
+
+lint:
+	@npm run lint
+
+lint-fix:
+	@npm run lint-fix
