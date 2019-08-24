@@ -36,4 +36,10 @@ router.get('/', function(req, res, next) {
   );
 });
 
+
+router.get('/error', (req, res, next) => {
+  res.send('Something broke!');
+  next(new Error('Custom error message'));
+});
+
 module.exports = router;

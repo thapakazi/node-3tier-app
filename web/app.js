@@ -5,6 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Imports the Google Cloud client library
+const {ErrorReporting} = require('@google-cloud/error-reporting');
+
+// Instantiates a client
+const errors = new ErrorReporting();
+
 var routes = require('./routes/index');
 
 var app = express();
@@ -47,6 +53,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  errors.report(err.message);
   res.status(err.status || 500);
   res.render({
     message: err.message,
@@ -54,5 +61,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+app.use(errors.express);
 
 module.exports = app;
