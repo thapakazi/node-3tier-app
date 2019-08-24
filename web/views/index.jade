@@ -3,6 +3,6 @@ extends layout
 block content
   h1= title
   p Welcome कान्छा, it's #{time}
-  p: img(src="/images/nyan.gif", title="nyan cat")
+  p: img(src="#{cdnUrl}/assets/images/nyan.gif", title="nyan cat")
   pre #{request_uuid}
-  pre Service from: #{hostname}
+  pre serving request from: #{hostname}

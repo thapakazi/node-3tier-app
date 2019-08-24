@@ -27,7 +27,8 @@ router.get('/', function (req, res, next) {
           title: '3tier App',
           request_uuid: body.request_uuid,
           time: body.time,
-          hostname: os.hostname()
+          hostname: os.hostname(),
+          cdnUrl: process.env.CDN_URL ? process.env.CDN_URL : ''
         });
       }
     }
