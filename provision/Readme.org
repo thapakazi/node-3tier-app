@@ -7,13 +7,32 @@
   - [X] provision the gke cluster
   - [X] provision the database: pg (private ip only inside vpc)
   - [X] save database credentials into kuberenets secrets
-  - [ ] periodic backup for sql
-  - [ ] apm for applications
-  - [ ] logging of apps go to elk
-  - [ ] basic monitoring
+  - [X] sql backup enabled for cloud sql
+  - [X] logging of apps using loki and stackdiver
+  - [X] error reporting using gcloud error reporting
+  - [X] basic monitoring with prometheus
 
-
+* Pre-Demo Steps
+  - [X] create a new project on gcloud
+  - [X] create service accounts for:
+    - [X] terraform to use
+      permission: project owner
+    - [X] ci_builder
+      permission:
+      - Cloud Build Editor
+      - Storage Reader
+      - project -> Viewer
+        #+CAPTION: ci_builder service account permission
+        #+NAME:   fig:service_account
+        #+ATTR_ORG: :height 200
+        [[./img/ci_builder.png]]
 * Demo steps
+** enable the google api services
+   #+begin_src bash
+   cd ./gcloud
+   make enable-gcloud-resources PROJECT_ID=stunning-flight-250909
+   #+end_src
+
 ** provision/configure the infra
   - [X] provision the cluster first
     ETA: 15mins
@@ -21,7 +40,6 @@
     cd ./gcloud
     make run         # which import terraform states, builds plan and applies it
     #+end_src
-
   - [X] configure kubectl config
     #+begin_src bash
     make get-kubeconfig         # which populates the kubectl ~/.kube/config
@@ -30,19 +48,20 @@
     #+begin_src bash
     make genreate-secrets       # this will create secrets: api-secrets, web-secrets
     #+end_src
-
-** configure metas necessary for deployment    
+** configure ci metas necessary for deployment
   - [X] publish gitlab service account to k8s cluster, 
     why: gitlab-ci runners could invoke the deployment of new resources to k8s cluster
     #+begin_src bash
     cd ~/repos/thapakazi/node-3tier-app/provision/kubernetes
     make create-gitlab-svc-account 
     #+end_src
-  - [ ] create/update CI/CD secret variables on gitlab, secrets could be found with:
+
+  - [X] create/update [[https://gitlab.com/thapakazi/node-3tier-app/-/settings/ci_cd][CI/CD secret variables]] on gitlab, secrets could be found with:
     #+begin_src bash
     cd ~/repos/thapakazi/node-3tier-app/provision/kubernetes
-    make get-cluster-info
+    make get-cluster-info |tee /tmp/cluster-info
     #+end_src
+    *Watchout, when you copy these secrets to gitlab, you might introduce new lines*
 
     Update the variable on ci/cd settings: https://gitlab.com/thapakazi/node-3tier-app/-/settings/ci_cd
 ** Create k8s resources

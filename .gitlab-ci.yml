@@ -1,6 +1,6 @@
 variables:
-  GCLOUD_PROJECT_ID: 'node-3tier-app'
-  APP_NAME: 'web'
+  GCLOUD_PROJECT_ID: 'stunning-flight-250909'
+  APP_NAME: 'api'
 
 stages:
   - lint
@@ -35,4 +35,5 @@ deploy:
     - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
     - kubectl config set-context default --cluster=k8s --user=gitlab
     - kubectl config use-context default
-    - sed "s/latest/${CI_COMMIT_SHORT_SHA}/g" $APP_NAME/deploy/deployment.yml | kubectl apply -f -
+    - sed "s/PROJECT_ID/$GCLOUD_PROJECT_ID/; s/LATEST/${CI_COMMIT_SHORT_SHA}/" $APP_NAME/deploy/deployment.yml | kubectl apply -f -
+    - rm -rf ~/.kube/config

@@ -1,4 +1,4 @@
-PROJECT_ID?="node-3tier-app-demo"
+PROJECT_ID?="stunning-flight-250909"
 enable-gcloud-resources:
 	@gcloud services enable cloudresourcemanager.googleapis.com --project ${PROJECT_ID}
 	@gcloud services enable compute.googleapis.com --project ${PROJECT_ID}
@@ -21,7 +21,7 @@ get-outputs:
 	@terraform output
 
 generate-api-secrets:
-	@kubectl create secret generic api-secrets  --from-literal "DB=$(shell terraform output database_url)"
+	@kubectl create secret generic api-secrets  --from-literal "DB=$(shell terraform output database_url)" --from-literal "NODE_ENV=production"
 	@kubectl describe secret/api-secrets
 
 generate-web-secrets:
@@ -30,6 +30,8 @@ generate-web-secrets:
 
 genreate-secrets: generate-web-secrets generate-api-secrets
 
-clean:
+clean: clean_states
 	rm -rf ~/.kube/config
-	terraform state rm google_compute_network.vpc_default
+
+clean_states:
+	@terraform state rm google_compute_network.vpc_default

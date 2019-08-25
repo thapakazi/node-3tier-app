@@ -10,9 +10,22 @@ web <=> api <=> db
 
 The folders ~web~ and ~api~ respectively describe how to install and run each app.
 
-* CI variables
+* CI Configs
+** variables
   Since we use rely on env vars for ci/cd on .gitlab-ci.yml, set thes on Setting -> CI/CD on gitlab.
   - CERTIFICATE_AUTHORITY_DATA
   - SERVER
   - USER_TOKEN
+  - GCLOUD_SERVICE_KEY
+
+** Code build
+   We are using google cloud codebuild, to do the setup,
+   - create a service account for ci_builder on  [[https://console.cloud.google.com/iam-admin/serviceaccounts][gcloud console]].
+     Needed permission are: container builder, storage reader and log viewer
+   - generate/download a json key somewhere: like /tmp/key.json
+   - use its base64 encode version on [[https://gitlab.com/thapakazi/node-3tier-app/-/settings/ci_cd][gitlab ci_cd variable]]: ~GCLOUD_SERVICE_KEY~
+     #+begin_src bash
+     base64 -w 0 /tmp/key.json
+     #+end_src
+
 

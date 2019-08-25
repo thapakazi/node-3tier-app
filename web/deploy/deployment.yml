@@ -21,7 +21,7 @@ spec:
         app: web
     spec:
       containers:
-        - image: gcr.io/node-3tier-app/web:latest
+        - image: gcr.io/PROJECT_ID/web:LATEST
           imagePullPolicy: Always
           name: web
           ports:
