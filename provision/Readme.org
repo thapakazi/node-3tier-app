@@ -68,7 +68,7 @@
    - [X] create services for api and web
      #+begin_src bash
      cd ~/repos/thapakazi/node-3tier-app/api && make create-service
-     cd ~/repos/thapakazi/node-3tier-app/web && make create-service
+     cd ~/repos/thapakazi/node-3tier-app/web && make create-ingress
      #+end_src
    - [X] create ingress for web
      ETA: 5min+
@@ -78,6 +78,9 @@
      make create-ingress
      kubectl describe ingress/web-ingress
      #+end_src
+** Create dns entries
+   - [X] for web and assets
+
 ** Test CI/CD
    - [X] make a change to api
    - [X] make change to web

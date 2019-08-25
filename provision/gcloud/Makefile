@@ -35,3 +35,8 @@ clean: clean_states
 
 clean_states:
 	@terraform state rm google_compute_network.vpc_default
+
+config_set:
+	@gcloud config set project $(shell terraform output project_id)
+	@gcloud config set compute/region $(shell terraform output region)
+	gcloud config configurations list

@@ -1,6 +1,6 @@
 variables:
   GCLOUD_PROJECT_ID: 'stunning-flight-250909'
-  APP_NAME: 'api'
+  APP_NAME: 'web'
 
 stages:
   - lint
