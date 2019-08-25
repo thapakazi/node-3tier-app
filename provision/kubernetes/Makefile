@@ -1,5 +1,6 @@
 CLUSTER_NAME?=$(shell cd ../gcloud; terraform output cluster_name)
 REGION?=asia-south1
+PROJECT_ID?="node-3tier-app-demo"
 
 create-gitlab-svc-account:
 	@kubectl apply -f gitlab-admin-service-account.yml
@@ -29,7 +30,7 @@ get-cluster-info:
 
 	@echo "########################################"
 	@echo -n CERTIFICATE_AUTHORITY_DATA:
-	@gcloud container clusters describe $(CLUSTER_NAME) --region $(REGION) |awk '/clusterCaCertificate/{print $$NF}'
+	@gcloud container clusters describe $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT_ID) |awk '/clusterCaCertificate/{print $$NF}'
 
 	@echo "########################################"
 	@echo -n USER_TOKEN:

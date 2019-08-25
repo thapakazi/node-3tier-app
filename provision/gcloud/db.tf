@@ -4,23 +4,53 @@ resource "random_id" "db-instance" {
 
 resource "google_sql_database_instance" "master" {
   name             = "master-instance-${random_id.db-instance.hex}"
-  database_version = "POSTGRES_9_6"
-  region           = "${google_container_cluster.primary.region}"
+  database_version = "${var.sql_db_version}"
+  region           = "${var.region}"
   depends_on = [
     "google_project_service.sqladmin"
   ]
   settings {
-    tier = "db-f1-micro"
+    availability_type = "${var.availability_type}"
+    tier              = "${var.sql_instance_size}"
     ip_configuration {
       ipv4_enabled    = "false"
       private_network = "${google_compute_network.vpc_default.self_link}"
+    }
+    backup_configuration {
+      enabled    = true
+      start_time = "00:00"
+    }
+    location_preference {
+      zone = "${var.region}-${var.sql_master_zone}"
     }
   }
   timeouts {
     create = "20m"
     update = "30m"
   }
+}
 
+resource "google_sql_database_instance" "replica" {
+  depends_on = [
+    "google_sql_database_instance.master",
+  ]
+
+  name                 = "replica-instance-${terraform.workspace}"
+  region               = "${var.region}"
+  database_version     = "${var.sql_db_version}"
+  master_instance_name = "${google_sql_database_instance.master.name}"
+
+  settings {
+    tier            = "${var.sql_instance_size}"
+    disk_autoresize = true
+    ip_configuration {
+      ipv4_enabled    = "false"
+      private_network = "${google_compute_network.vpc_default.self_link}"
+    }
+    location_preference {
+      zone = "${var.region}-${var.sql_replica_zone}"
+    }
+  }
 }
 
 resource "random_string" "database_password" {

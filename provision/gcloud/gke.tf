@@ -2,7 +2,7 @@ resource "random_id" "gke-cluster" {
   byte_length = 4
 }
 resource "google_container_cluster" "primary" {
-  name           = "node-3tier-app-${random_id.gke-cluster.hex}"
+  name           = "${var.project_id}-${random_id.gke-cluster.hex}"
   location       = "${var.region}"
   node_locations = "${var.zones}"
 
@@ -17,17 +17,17 @@ resource "google_container_cluster" "primary" {
   }
 }
 
-variable min_node_count{
+variable min_node_count {
   default = 1
 }
-variable max_node_count{
+variable max_node_count {
   default = 3
 }
 resource "google_container_node_pool" "primary_nodes" {
-  name       = "my-node-pool"
-  location   = "${google_container_cluster.primary.location}"
-  cluster    = "${google_container_cluster.primary.name}"
-  version    = "${google_container_cluster.primary.master_version}"
+  name               = "my-node-pool"
+  location           = "${google_container_cluster.primary.location}"
+  cluster            = "${google_container_cluster.primary.name}"
+  version            = "${google_container_cluster.primary.master_version}"
   initial_node_count = "${var.min_node_count}"
   # node_count = 2
   autoscaling {

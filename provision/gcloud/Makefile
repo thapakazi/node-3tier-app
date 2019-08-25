@@ -1,3 +1,8 @@
+PROJECT_ID?="node-3tier-app-demo"
+enable-gcloud-resources:
+	@gcloud services enable cloudresourcemanager.googleapis.com --project ${PROJECT_ID}
+	@gcloud services enable compute.googleapis.com --project ${PROJECT_ID}
+
 import:
 	@terraform import -provider=google-beta google_compute_network.vpc_default default
 
@@ -10,7 +15,7 @@ apply:
 run: import plan apply
 
 get-kubeconfig:
-	@gcloud container clusters get-credentials "$(shell terraform output cluster_name)" --region "$(shell terraform output region)"
+	@gcloud container clusters get-credentials "$(shell terraform output cluster_name)" --region "$(shell terraform output region)" --project ${PROJECT_ID}
 
 get-outputs:
 	@terraform output
