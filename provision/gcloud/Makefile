@@ -1,4 +1,4 @@
-PROJECT_ID?="stunning-flight-250909"
+PROJECT_ID?="node-3tier-application"
 enable-gcloud-resources:
 	@gcloud services enable cloudresourcemanager.googleapis.com --project ${PROJECT_ID}
 	@gcloud services enable compute.googleapis.com --project ${PROJECT_ID}

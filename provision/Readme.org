@@ -30,7 +30,7 @@
 ** enable the google api services
    #+begin_src bash
    cd ./gcloud
-   make enable-gcloud-resources PROJECT_ID=stunning-flight-250909
+   make enable-gcloud-resources PROJECT_ID=node-3tier-application
    #+end_src
 
 ** provision/configure the infra

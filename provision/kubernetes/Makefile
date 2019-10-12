@@ -1,6 +1,6 @@
 CLUSTER_NAME?=$(shell cd ../gcloud; terraform output cluster_name)
 REGION?=asia-south1
-PROJECT_ID?="stunning-flight-250909"
+PROJECT_ID?="node-3tier-application"
 
 create-gitlab-svc-account:
 	@kubectl apply -f gitlab-admin-service-account.yml

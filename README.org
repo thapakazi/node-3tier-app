@@ -1,15 +1,42 @@
-* Sample 3tier app
-This repo contains code for a Node.js multi-tier application.
-
-The application overview is as follows
-
-#+begin_quote
-web <=> api <=> db
-#+end_quote
+#+TITLE: Node Three Tier Application
+#+DESCRIPTION: 3 tier application
+#+DATE: Saturday, Oct 12 2019
 
 
-The folders ~web~ and ~api~ respectively describe how to install and run each app.
+* About
+  This repo contains code for a Node.js multi-tier application.
 
+  The application overview is as follows
+
+  #+begin_quote
+  web <=> api <=> db
+  #+end_quote
+
+  The folders ~web~ and ~api~ respectively describe how to install and run each app.
+* Preperation
+  - [ ] *Dockerfile*
+  - [ ] Terraform codebase
+  - [ ] gcloud automation
+    - [ ] project creation
+    - [ ] permission fixes
+    - [ ] enable api
+  - [ ] Automate gitlab ci variables
+  - [ ] Instrumentation
+    - [ ] prometheus
+
+* Technology Used
+  | items       | remarks                                                                      |
+  |-------------+------------------------------------------------------------------------------|
+  | GKE         | *free* (300$ credits) and more mature than EKS                               |
+  | terraform   | easier to build cluster from code, test it and nuke it later                 |
+  | Makefile    | easier to prepare and streamline the demo                                    |
+  | cloudsql    | avoid dealing with persistent state onk8s cluster and other HA configuration |
+  | gitlab-ci   | easy and straight forward ci/cd also free for demo                         |
+  | CloudBuild  | to build the container images                                                |
+  | stackdriver | log the error on application                                                 |
+  | Google CDN  | caching the static resources                                                 |
+  | loki        | just for tryout, its simple straight forward logging solution                |
+  |-------------+------------------------------------------------------------------------------|
 * CI Configs
 ** variables
   Since we use rely on env vars for ci/cd on .gitlab-ci.yml, set thes on Setting -> CI/CD on gitlab.
