@@ -1,6 +1,6 @@
-CLUSTER_NAME?=$(shell cd ../gcloud; terraform output cluster_name)
-REGION?=asia-south1
-PROJECT_ID?="node-3tier-application"
+CLUSTER_NAME?=$(shell cd ../gcloud/production/services/k8s; terraform output cluster_name)
+REGION?=$(shell cd ../gcloud/production/services/k8s; terraform output region)
+PROJECT_ID?=$(shell cd ../gcloud/production/services/k8s; terraform output project_id)
 
 create-gitlab-svc-account:
 	@kubectl apply -f gitlab-admin-service-account.yml
@@ -25,13 +25,13 @@ loki:
 	helm install --name loki --namespace observability loki/loki-stack
 
 get-cluster-info:
-	@echo -n SERVER:
+	@echo "gitlab_vars"{
+	@echo -n SERVER=
 	@kubectl cluster-info|awk '/Kubernetes master/{print $$NF}'
 
-	@echo "########################################"
-	@echo -n CERTIFICATE_AUTHORITY_DATA:
+	@echo -n CERTIFICATE_AUTHORITY_DATA=
 	@gcloud container clusters describe $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT_ID) |awk '/clusterCaCertificate/{print $$NF}'
 
-	@echo "########################################"
-	@echo -n USER_TOKEN:
+	@echo -n USER_TOKEN=
 	@kubectl describe secret $(shell kubectl -n kube-system get secret | awk '/gitlab-admin/{print $$1}') -n kube-system|awk '/token:/{print $$NF}'
+	@echo "}"
