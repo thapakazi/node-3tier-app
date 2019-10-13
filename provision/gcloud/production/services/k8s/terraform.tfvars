@@ -1,6 +1,6 @@
 project_id = "node-3tier-application"
-region     = "asia-south1"
+region     = "us-central1"
 zones = [
-  "asia-south1-c",
-  "asia-south1-b",
+  "us-central1-a",
+  "us-central1-b",
 ]

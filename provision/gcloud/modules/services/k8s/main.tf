@@ -9,9 +9,9 @@ resource "google_container_cluster" "primary" {
 
   remove_default_node_pool = true
   initial_node_count       = "${var.initial_node_count}"
-  depends_on = [
-    "google_project_service.container"
-  ]
+  # depends_on = [
+  #   "google_project_service.container"
+  # ]
 
   ip_allocation_policy {
     use_ip_aliases = true

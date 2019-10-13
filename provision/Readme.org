@@ -2,21 +2,19 @@
 #+DATE: Sunday, Aug 18 2019
 #+DESCRIPTION: provisioning node-3tier app with terraform
 
-* GCloud
-  - [X] create a project and get json key
-  - [X] provision the gke cluster
-  - [X] provision the database: pg (private ip only inside vpc)
-  - [X] save database credentials into kuberenets secrets
-  - [X] sql backup enabled for cloud sql
-  - [X] logging of apps using loki and stackdiver
-  - [X] error reporting using gcloud error reporting
-  - [X] basic monitoring with prometheus
-
 * Pre-Demo Steps
   - [X] create a new project on gcloud
+    #+begin_src bash
+    PROJECT_ID=node-3tier-application make create_project
+    #+end_src
+
   - [X] create service accounts for:
     - [X] terraform to use
       permission: project owner
+      #+begin_src bash
+      make configure_user
+      #+end_src
+
     - [X] ci_builder
       permission:
       - Cloud Build Editor
@@ -107,4 +105,14 @@
      #+RESULTS:
 
   
+
+* DONE GCloud
+  - [X] create a project and get json key
+  - [X] provision the gke cluster
+  - [X] provision the database: pg (private ip only inside vpc)
+  - [X] save database credentials into kuberenets secrets
+  - [X] sql backup enabled for cloud sql
+  - [X] logging of apps using loki and stackdiver
+  - [X] error reporting using gcloud error reporting
+  - [X] basic monitoring with prometheus
 

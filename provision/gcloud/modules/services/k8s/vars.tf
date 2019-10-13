@@ -1,7 +1,7 @@
 # commonly used variables declaration
-variable project_id {}
-variable region {}
-variable zones {
+variable "project_id" {}
+variable "region" {}
+variable "zones" {
   type = "list"
 }
 
@@ -25,5 +25,5 @@ variable "max_node_count" {
 
 variable "primary_nodes_name" {
   description = "Name of primary node pool group"
-  default = "primary_nodes"
+  default = "primary-nodes"
 }

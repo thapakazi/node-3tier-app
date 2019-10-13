@@ -4,13 +4,15 @@
 # }
 
 provider "google" {
-  credentials = "${file("keyfile/${var.project_id}.json")}"
+  # credentials = "${file("~/.config/gcloud/terraform@${var.project_id}.json")}"
+  credentials = "${file("~/.config/gcloud/node-3tier-application-a3806f97e8d9.json")}"
   project     = "${var.project_id}"
   region      = "${var.region}"
 }
 
 provider "google-beta" {
-  credentials = "${file("keyfile/${var.project_id}.json")}"
+  # credentials = "${file("~/.config/gcloud/terraform@${var.project_id}.json")}"
+  credentials = "${file("~/.config/gcloud/node-3tier-application-a3806f97e8d9.json")}"
   project     = "${var.project_id}"
   region      = "${var.region}"
 }
@@ -20,7 +22,7 @@ module "k8s" {
   project_id        = "${var.project_id}"
   region         = "${var.region}"
   zones           = "${var.zones}"
-  instance_type  = "n1-standard-1"
+  instance_type  = "g1-small"
   min_node_count = 1
   max_node_count = 3
 }
