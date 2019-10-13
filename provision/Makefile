@@ -14,7 +14,11 @@ generate_key:
 	gcloud iam service-accounts keys create ${TF_CREDS} \
 	  --iam-account ${TF_ADMIN}.iam.gserviceaccount.com
 
+
 attach_permission:
+	echo 'THIS THING IS BUGGY !!!, #TODO, #reviselater'
+	echo 'Create a user from gcloud console and move on...'
+	echo '
 	gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 	  --member serviceAccount:${TF_ADMIN}.iam.gserviceaccount.com \
 	  --role roles/owner
@@ -22,6 +26,7 @@ attach_permission:
 	gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 	  --member serviceAccount:${TF_ADMIN}.iam.gserviceaccount.com \
 	  --role roles/serviceusage.serviceUsageAdmin
+	'
 
 configure_user: create_user generate_key attach_permission
 

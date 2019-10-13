@@ -26,3 +26,13 @@ module "k8s" {
   min_node_count = 1
   max_node_count = 3
 }
+
+
+module "db" {
+  source            = "../../../modules/cloudsql"
+  region            = "${var.region}"
+  sql_instance_size = "db-f1-micro"
+  # zones           = "${var.zones}"
+  # enable_replica = true
+  # availibility_type = "REGIONAL"
+}

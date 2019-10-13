@@ -1,11 +1,7 @@
 # private networking definition
-resource "google_compute_network" "vpc_default" {
+resource "google_compute_network" "private_network" {
   provider = "google-beta"
-  name     = "default"
-  lifecycle {
-    ignore_changes  = ["description"]
-    prevent_destroy = true
-  }
+  name     = "private-network"
 }
 
 resource "google_compute_global_address" "private_ip_address" {
@@ -15,26 +11,16 @@ resource "google_compute_global_address" "private_ip_address" {
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
-  network       = "${google_compute_network.vpc_default.self_link}"
+  network       = "${google_compute_network.private_network.self_link}"
 }
 
 resource "google_service_networking_connection" "private_vpc_connection" {
   provider = "google-beta"
 
-  network                 = "${google_compute_network.vpc_default.self_link}"
+  network                 = "${google_compute_network.private_network.self_link}"
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = ["${google_compute_global_address.private_ip_address.name}"]
   depends_on = [
     "google_project_service.servicenetworking"
   ]
-}
-
-resource "google_project_service" "servicenetworking" {
-  service            = "servicenetworking.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "cloudresourcemanager" {
-  service            = "cloudresourcemanager.googleapis.com"
-  disable_on_destroy = false
 }

@@ -9,3 +9,7 @@ output "cluster_name" {
 output "region" {
   value = module.k8s.region
 }
+
+output "database_url" {
+  value = module.db.database_url
+}

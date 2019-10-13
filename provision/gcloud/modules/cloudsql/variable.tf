@@ -1,13 +1,14 @@
 # commonly used variables declaration
-variable project_id {}
 variable region {}
-variable zones {
-  type = "list"
-}
 
 variable "sql_instance_size" {
   default     = "db-f1-micro"
   description = "Size of Cloud SQL instances"
+}
+
+variable "enable_backup" {
+  default     = false
+  description = "If set true, backup is enabled"
 }
 
 variable "sql_master_zone" {
@@ -26,6 +27,11 @@ variable "sql_db_version" {
 }
 
 variable "availability_type" {
-  default     = "REGIONAL"
-  description = "Availability type for HA"
+  default     = "ZONAL"
+  description = "Availability type for HA, high availability (REGIONAL) or single zone (ZONAL)"
+}
+
+variable "enable_replica" {
+  description = "If true, replica is enabled"
+  default     = false
 }
