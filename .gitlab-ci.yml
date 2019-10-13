@@ -1,11 +1,11 @@
 variables:
-  GCLOUD_PROJECT_ID: 'stunning-flight-250909'
+  GCLOUD_PROJECT_ID: 'node-3tier-application'
   APP_NAME: 'web'
 
 stages:
   - lint
-  - build
-  - deploy
+  # - build
+  # - deploy
 
 lint:
   image: node:alpine
